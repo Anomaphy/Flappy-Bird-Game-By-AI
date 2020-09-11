@@ -1,8 +1,10 @@
+# Importing
 import neat
 import pygame
 import os
 import random
 
+# Setting up the Window for game
 pygame.font.init()
 # WINDOW SIZE
 WIN_WIDTH = 490
@@ -12,16 +14,20 @@ WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 DIR = os.path.dirname(os.path.realpath(__file__))
 IMAGES_DIRECTORY = os.path.join(DIR, "imgs")
 
+# Reading all the images
 BIRD_IMAGES = [(pygame.image.load(os.path.join(IMAGES_DIRECTORY, "bird1.png"))),
                (pygame.image.load(os.path.join(IMAGES_DIRECTORY, "bird2.png"))),
                (pygame.image.load(os.path.join(IMAGES_DIRECTORY, "bird3.png")))]
 
+# Magnifying the images
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join(IMAGES_DIRECTORY, "pipe.png")))
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join(IMAGES_DIRECTORY, "base.png")))
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join(IMAGES_DIRECTORY, "bg.png")))
 
+# Deciding the Font style out of limited options
 STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
+# AI
 gen = 0
 # BIRD IMAGE BASIC
 class Bird:
@@ -30,6 +36,7 @@ class Bird:
     ROT_VEL = 20
     ANIMATION_TIME = 3
 
+    # Most confusing function so I can't explain
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -61,6 +68,7 @@ class Bird:
 
         self.y = self.y + d
 
+        # Rotating like a good bird
         if d < 0 or self.y < self.height + 50:
             if self.tilt < self.MAX_ROTATION:
                 self.tilt = self.MAX_ROTATION
@@ -68,6 +76,7 @@ class Bird:
             if self.tilt > -90:
                 self.tilt -= self.ROT_VEL
 
+     # Putting all on whiteboard
     def draw(self, win):
         self.img_count += 1
 
@@ -96,7 +105,7 @@ class Bird:
     def get_mask(self):
         return pygame.mask.from_surface(self.img)
 
-
+# Those crazy stuff which can kill our bird
 class Pipe:
     GAP = 200
     VEL = 5
@@ -142,7 +151,7 @@ class Pipe:
 
         return False
 
-
+# There needs to be ground ofcourse
 class Base:
     VEL = 5
     WIDTH = BASE_IMG.get_width()
